@@ -1,21 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export type StackProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
-> &
-  Partial<{
-    className: string;
-  }>;
+function Stack(props) {
+  const [isMounted, setIsMounted] = useState(false);
 
-export const Stack: React.FC<React.PropsWithChildren<StackProps>> = ({
-  children,
-  className,
-  ...restProps
-}) => {
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
-    <div className={className} {...restProps}>
-      {children}
-    </div>
+    <>
+      <div
+        className="bg-white min-w-[100px] h-6 rounded-full justify-self-end"
+        style={{
+          transform: isMounted ? "translateY(0)" : "translateY(100px)",
+          opacity: isMounted ? 1 : 0,
+          transition: "transform 0.3s 0s, opacity 0.3s ease-in-out 0s"
+        }}
+      ></div>
+    </>
   );
-};
+}
+
+export default Stack;
