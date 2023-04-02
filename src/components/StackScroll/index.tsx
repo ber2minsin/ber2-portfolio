@@ -26,7 +26,7 @@ function StackScroll(props){
             if(position - currentPos > 0){
                 let addAmount = position - currentPos;
                 const newStacks = new Array(addAmount).fill(null).map((_, i) => (
-                    <Stack key={Date.now() + i} page={position} />
+                    <Stack key={Date.now() + i} page={position} onClick/>
                 ));
                 setStacks((stacks) => [...stacks, ...newStacks]);
                 currentPos = position;
