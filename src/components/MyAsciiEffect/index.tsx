@@ -26,6 +26,7 @@ function MyAsciiEffect(props){
             effect.domElement.style.color = ASCIIColor;
             effect.domElement.style.backgroundColor = backgroundColor;
             effect.domElement.style.scrollSnapAlign = "start";
+            effect.domElement.id = "page-9999";
             // effect.domElement.style.display = "grid";
         }
         createEffect();
