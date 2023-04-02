@@ -8,11 +8,14 @@ function MyAsciiEffect(props){
     const effectRef = useRef(null);
     React.useEffect(() => {
         const renderer = new THREE.WebGLRenderer();
+        const amount = (Math.min(0, Math.random() - 0.1) + 0.8) / 10;
+        console.log(amount);
 
-        const characters = " .:-+*=%@#";
-        const ASCIIColor = "#ffffff";
+        const characters = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // const characters = " .:-+*=%@#";
+        const ASCIIColor = "#f0f0f0";
         const backgroundColor = "#000000";
-        const effectSize = { amount: 1 };
+        const effectSize = { amount: amount };
         const sizes = {
             width: window.innerWidth,
             height: window.innerHeight,
@@ -21,7 +24,7 @@ function MyAsciiEffect(props){
         let effect;
         const myMesh = new THREE.Mesh();
         function createEffect() {
-            effect = new AsciiEffect(renderer, characters, { invert: true, amount: effectSize.amount });
+            effect = new AsciiEffect(renderer, characters, { invert: true, resolution: effectSize.amount });
             effect.setSize(sizes.width, sizes.height);
             effect.domElement.style.color = ASCIIColor;
             effect.domElement.style.backgroundColor = backgroundColor;
@@ -37,7 +40,7 @@ function MyAsciiEffect(props){
         scene.background = new THREE.Color(0, 0, 0);
 
         const pointLight1 = new THREE.PointLight(0xffffff, 1);
-        pointLight1.position.set(100, 100, 400);
+        pointLight1.position.set(100, 100, 500);
         scene.add(pointLight1);
 
 
@@ -45,7 +48,6 @@ function MyAsciiEffect(props){
         const material = new THREE.MeshStandardMaterial()
         material.flatShading = true
         material.side = THREE.DoubleSide;
-
         const clock = new THREE.Clock()
 
         // Load model
@@ -74,13 +76,17 @@ function MyAsciiEffect(props){
                 // myMesh.position.y = ((bbox.max.z - bbox.min.z) / 5)
                 // myMesh.rotation.y = 90;
                 myMesh.rotation.x = 45;
-                camera.position.x = 0;
+                camera.position.x = -0.6;
                 camera.position.y = 0;
                 camera.position.z = 3;
                 scene.add(myMesh);
 
                 let lastTime = 0;
-                const minRenderInterval = 1000 / 60;
+                let fps = props.fps;
+                if (fps === undefined) {
+                    fps = 60;
+                }
+                const minRenderInterval = 1000 / fps;
                 function tick() {
                     window.requestAnimationFrame(tick)
                     const currentTime = Date.now();
@@ -91,8 +97,8 @@ function MyAsciiEffect(props){
                     lastTime = currentTime;
 
                     const elapsedTime = clock.getElapsedTime()
-                    myMesh.rotation.z = (elapsedTime) / 3;
-                    // myMesh.rotation.z = (elapsedTime) / 3;
+                    // myMesh.rotation.z = (elapsedTime) * 3; // Test for fps
+                    myMesh.rotation.z = (elapsedTime) / 2.5;
                     effect.render(scene, camera);
                 }
                 tick()

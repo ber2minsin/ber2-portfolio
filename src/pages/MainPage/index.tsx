@@ -17,7 +17,7 @@ const MainPagePage: React.FC = () => {
               Hello, I am Arda
             </div> */}
             <div className="fill-gray_600 pointer-events-none">
-              <MyAsciiEffect />
+              <MyAsciiEffect  />
             </div>
         </div>
         <div className="grid snap-start shrink-0 bg-blue-200 w-screen h-screen place-items-center text-8xl" id="page-1">1</div>
